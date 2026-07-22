@@ -25,4 +25,4 @@ def checkout(request):
 
     return render(request, 'orders/checkout.html', {'cart': cart})
 def order_history(request):
-    return render(request, 'orders/order_history.html'),
+    return render(request, 'orders/order_history.html')

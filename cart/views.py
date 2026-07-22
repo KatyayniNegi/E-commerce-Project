@@ -36,3 +36,23 @@ def cart_detail(request):
         'cart_items': cart_items,
         'total_price': grand_total,
     })
+# Remove a product completely from the cart
+def cart_remove(request, product_id):
+    cart = Cart(request)
+    product_id_str = str(product_id)
+    if product_id_str in cart.cart:
+        del cart.cart[product_id_str]
+        cart.save()
+    return redirect('cart:cart_detail')
+
+# Decrease quantity by 1 (removes product if quantity reaches 0)
+def cart_decrease(request, product_id):
+    cart = Cart(request)
+    product_id_str = str(product_id)
+    if product_id_str in cart.cart:
+        if cart.cart[product_id_str]['quantity'] > 1:
+            cart.cart[product_id_str]['quantity'] -= 1
+        else:
+            del cart.cart[product_id_str]
+        cart.save()
+    return redirect('cart:cart_detail')

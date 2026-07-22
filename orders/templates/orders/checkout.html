@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Checkout - DjangoStore{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Shipping and Payment Form -->
+    <div class="col-md-8 mb-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Billing & Shipping Details</h4>
+            </div>
+            <div class="card-body">
+                <form action="{% url 'process_order' %}" method="post" id="payment-form">
+                    {% csrf_token %}
+                    
+                    <h5 class="mb-3">Shipping Address</h5>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Street Address</label>
+                        <input type="text" class="form-control" id="address" name="address" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 mb-3">
+                            <label for="city" class="form-label">City</label>
+                            <input type="text" class="form-control" id="city" name="city" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="state" class="form-label">State</label>
+                            <input type="text" class="form-control" id="state" name="state" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="pincode" class="form-label">PinCode</label>
+                            <input type="text" class="form-control" id="pincode" name="pincode" required>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <h5 class="mb-3">Payment Method</h5>
+                    <div class="form-check mb-2">
+                        <input id="credit" name="paymentMethod" type="radio" class="form-check-input" value="stripe" checked required>
+                        <label class="form-check-label" for="credit">Credit card (Stripe)</label>
+                    </div>
+                    <div class="form-check mb-4">
+                        <input id="razorpay" name="paymentMethod" type="radio" class="form-check-input" value="razorpay" required>
+                        <label class="form-check-label" for="razorpay">Razorpay</label>
+                    </div>
+
+                    <button class="btn btn-success btn-lg w-100" type="submit">Place Order & Pay</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Summary Sidebar -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-light">
+                <h4 class="mb-0 text-muted">Order Summary</h4>
+            </div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    {% for item in cart %}
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-0">{{ item.product.name }}</h6>
+                            <small class="text-muted">Qty: {{ item.quantity }}</small>
+                        </div>
+                        <span class="text-muted">${{ item.total_price }}</span>
+                    </li>
+                    {% endfor %}
+                    <li class="list-group-item d-flex justify-content-between bg-light">
+                        <span>Total (USD)</span>
+                        <strong>${{ cart.get_total_price }}</strong>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

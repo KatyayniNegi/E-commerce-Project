@@ -21,6 +21,8 @@ def checkout(request):
                 quantity=item_data['quantity']
             )
         request.session['cart_session'] = {}  # Clear cart
-        return redirect('order_history')
+        return redirect('orders:order_history')
 
     return render(request, 'orders/checkout.html', {'cart': cart})
+def order_history(request):
+    return render(request, 'orders/order_history.html'),

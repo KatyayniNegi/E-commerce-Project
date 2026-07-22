@@ -42,10 +42,16 @@
                 {% endfor %}
             </tbody>
         </table>
-
-        <div class="d-flex justify-content-between align-items-center mt-4">
-            <h4>Total: ₹{{ total_price }}</h4>
-            <a href="{% url 'store:product_list' %}" class="btn btn-outline-secondary">Continue Shopping</a>
+<div class="d-flex justify-content-between align-items-center mt-4">
+    <h4>Total: ₹{{ total_price }}</h4>
+    <div>
+        <!-- Your existing Continue Shopping button -->
+        <a href="{% url 'store:product_list' %}" class="btn btn-outline-secondary me-2">Continue Shopping</a>
+        
+        <!-- The NEW Checkout button -->
+        <a href="{% url 'orders:checkout' %}" class="btn btn-success">Proceed to Checkout</a>
+    </div>
+</div>
         </div>
     {% else %}
         <p class="text-muted">Your cart is currently empty.</p>

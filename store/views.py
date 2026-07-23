@@ -16,7 +16,13 @@ def product_list(request):
         products = products.filter(
             Q(name__icontains=query) | Q(description__icontains=query)
         )
-
+    # Sort by price if requested
+    sort_by = request.GET.get('sort')
+    if sort_by == 'low_high':
+        products = products.order_by('price')
+    elif sort_by == 'high_low':
+        products = products.order_by('-price')
+        
     return render(request, 'store/list.html', {
         'products': products,
         'categories': categories,

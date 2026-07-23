@@ -1,6 +1,5 @@
 # Python bytecode & cache
 __pycache__/
-*.sqlite3
 *.py[cod]
 *$py.class
 
